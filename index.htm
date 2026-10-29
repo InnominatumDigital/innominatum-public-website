@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08060b">
+  <meta name="description" content="Conheça os jogos da Innominatum Digital: No Dead Ends, em produção; lançamentos na Steam e projetos independentes de Game Jam.">
+  <title>Innominatum Digital — Jogos</title>
+  <link rel="icon" type="image/png" href="assets/Rose Black adjusted.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --void: #08060b;
+      --panel: #100b17;
+      --panel-light: #171020;
+      --purple: #8a2be2;
+      --purple-deep: #7b2cbf;
+      --violet: #c77dff;
+      --white: #f3e8ff;
+      --muted: #b6a8c0;
+      --line: rgba(199, 125, 255, .22);
+      --mono: "Share Tech Mono", "Courier New", monospace;
+      --display: "Alegreya", Georgia, serif;
+      --body: "Rajdhani", "Arial", sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--void);
+      color: var(--white);
+      font: 18px/1.55 var(--body);
+    }
+    body::after {
+      position: fixed;
+      z-index: 20;
+      pointer-events: none;
+      inset: 0;
+      background: repeating-linear-gradient(to bottom, transparent 0, transparent 3px, rgba(0, 0, 0, .35) 4px);
+      content: "";
+      opacity: .13;
+    }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--violet); outline-offset: 5px; }
+    img { display: block; max-width: 100%; }
+    .wrap { width: min(1200px, calc(100% - 48px)); margin-inline: auto; }
+    .mono { font-family: var(--mono); }
+
+    .site-header {
+      position: sticky;
+      z-index: 30;
+      top: 0;
+      border-bottom: 1px solid var(--line);
+      background: rgba(8, 6, 11, .88);
+      backdrop-filter: blur(16px);
+    }
+    .nav { display: flex; min-height: 76px; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; text-decoration: none; }
+    .brand img { width: 150px; height: 50px; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: clamp(16px, 3vw, 34px); }
+    .nav-links a {
+      color: #decfe8;
+      font: 13px var(--mono);
+      letter-spacing: .07em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color .2s ease;
+    }
+    .nav-links a:hover { color: var(--violet); }
+    .language-switch { display: flex; align-items: center; gap: 5px; }
+    .language-switch button {
+      padding: 6px 7px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #aa99b7;
+      cursor: pointer;
+      font: 12px var(--mono);
+    }
+    .language-switch button[aria-pressed="true"] { border-color: var(--line); color: var(--violet); }
+
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: min(760px, calc(100svh - 76px));
+      overflow: hidden;
+      align-items: center;
+      isolation: isolate;
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(ellipse at 74% 44%, rgba(80, 29, 130, .2), transparent 49%),
+        radial-gradient(ellipse at 50% 100%, rgba(38, 13, 61, .38), transparent 62%);
+    }
+    .hero::before {
+      position: absolute;
+      z-index: -1;
+      right: -25%;
+      bottom: -62%;
+      left: -25%;
+      height: 76%;
+      transform: perspective(340px) rotateX(58deg);
+      transform-origin: center top;
+      background-image:
+        linear-gradient(rgba(157, 78, 221, .26) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(157, 78, 221, .26) 1px, transparent 1px);
+      background-size: 54px 40px;
+      content: "";
+      mask-image: linear-gradient(to bottom, transparent, #000 19%, #000 80%, transparent);
+      animation: grid-drift 16s linear infinite;
+    }
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--violet), transparent);
+      box-shadow: 0 0 22px var(--purple);
+      content: "";
+    }
+    @keyframes grid-drift { to { background-position: 0 40px, 0 0; } }
+    @keyframes cover-breathe { 0%, 100% { transform: scale(1.015); } 50% { transform: scale(1.06); } }
+    @keyframes badge-glow { 0%, 100% { box-shadow: 0 0 12px rgba(255, 75, 135, .18); } 50% { box-shadow: 0 0 24px rgba(255, 75, 135, .46); } }
+    .hero-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+      align-items: center;
+      gap: clamp(32px, 6vw, 76px);
+      padding-block: 74px 96px;
+    }
+    .hero-poster {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 108, 165, .62);
+      background: #160c1b;
+      box-shadow: 0 0 0 1px rgba(138, 43, 226, .22), 0 26px 90px rgba(0, 0, 0, .46), 0 0 54px rgba(138, 43, 226, .24);
+      animation: poster-arrive .9s cubic-bezier(.2,.8,.2,1) both;
+    }
+    @keyframes poster-arrive { from { opacity: 0; transform: translateX(-22px) scale(.98); } to { opacity: 1; transform: translateX(0) scale(1); } }
+    .hero-poster::after {
+      position: absolute;
+      pointer-events: none;
+      inset: 0;
+      background: repeating-linear-gradient(to bottom, transparent 0, transparent 3px, rgba(0, 0, 0, .25) 4px);
+      content: "";
+      opacity: .25;
+    }
+    .hero-poster img { width: 100%; aspect-ratio: 1232 / 706; object-fit: cover; animation: cover-breathe 24s ease-in-out infinite; }
+    .production-badge {
+      display: inline-flex;
+      position: relative;
+      margin-bottom: 15px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 152, 187, .72);
+      background: rgba(35, 8, 25, .86);
+      color: #ffd9e8;
+      font: 12px var(--mono);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      animation: badge-glow 3.2s ease-in-out infinite;
+    }
+    .hero-copy { max-width: 500px; animation: copy-arrive .85s .12s both; }
+    @keyframes copy-arrive { from { opacity: 0; transform: translateY(17px); } to { opacity: 1; transform: translateY(0); } }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--violet);
+      font: 13px var(--mono);
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 25px; height: 1px; background: currentColor; content: ""; }
+    .hero-copy .eyebrow { color: #ff9abc; }
+    .hero h1 {
+      margin: 17px 0 12px;
+      font: 800 clamp(52px, 7vw, 88px)/.93 var(--display);
+      letter-spacing: -.025em;
+      text-shadow: 0 0 34px rgba(255, 67, 137, .2);
+      text-wrap: balance;
+    }
+    .hero-description { margin: 0; color: #d3c4db; font-size: clamp(19px, 2vw, 22px); }
+    .hero-meta { margin: 22px 0 0; color: #b7a4c2; font: 12px var(--mono); letter-spacing: .08em; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 27px; }
+    .button {
+      display: inline-flex;
+      min-height: 49px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 19px;
+      border: 1px solid var(--purple);
+      background: var(--purple-deep);
+      box-shadow: 0 0 24px rgba(123, 44, 191, .28);
+      color: white;
+      font: 13px var(--mono);
+      letter-spacing: .05em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    .button:hover { transform: translateY(-3px); background: var(--purple); box-shadow: 0 0 32px rgba(157, 78, 221, .5); }
+    .button-game { border-color: #ba3f70; background: #7e254e; box-shadow: 0 0 22px rgba(232, 46, 118, .22); }
+    .button-game:hover { background: #a52e60; box-shadow: 0 0 32px rgba(232, 46, 118, .4); }
+    .button-secondary { border-color: var(--line); background: rgba(16, 11, 23, .7); box-shadow: none; color: var(--white); }
+    .button-secondary:hover { border-color: var(--violet); background: rgba(123, 44, 191, .14); }
+
+    .section { padding: 94px 0; }
+    .portfolio { background: linear-gradient(180deg, #0b0810, var(--void) 78%); }
+    .section-heading { max-width: 720px; margin-bottom: 35px; }
+    .section-heading h2 {
+      margin: 13px 0 8px;
+      font: 700 clamp(34px, 5vw, 52px)/1.08 var(--display);
+      letter-spacing: -.02em;
+    }
+    .section-heading p { max-width: 630px; margin: 0; color: var(--muted); font-size: 19px; }
+    .steam-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .game-jam-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .game-card {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid rgba(199, 125, 255, .19);
+      background: linear-gradient(145deg, rgba(25, 16, 34, .94), rgba(13, 9, 18, .98));
+      transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+    }
+    .game-card:hover, .game-card:focus-within {
+      transform: translateY(-6px);
+      border-color: rgba(199, 125, 255, .84);
+      box-shadow: 0 0 0 1px rgba(138, 43, 226, .17), 0 16px 42px rgba(85, 34, 125, .24);
+    }
+    .game-card-art {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(199, 125, 255, .18);
+      background: #100b17;
+    }
+    .game-card-art::after {
+      position: absolute;
+      pointer-events: none;
+      inset: 0;
+      background: linear-gradient(transparent 62%, rgba(8, 6, 11, .54));
+      content: "";
+    }
+    .steam-grid .game-card-art img { width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; }
+    .game-jam-grid .game-card-art img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1), filter .4s ease; }
+    .game-card:hover .game-card-art img { transform: scale(1.055); filter: saturate(1.15); }
+    .card-tag {
+      position: absolute;
+      z-index: 1;
+      bottom: 12px;
+      left: 14px;
+      color: #f4d9ff;
+      font: 11px var(--mono);
+      letter-spacing: .08em;
+      text-shadow: 0 2px 10px #08060b;
+      text-transform: uppercase;
+    }
+    .game-info { padding: 19px 20px 21px; }
+    .game-type { color: var(--violet); font: 11px var(--mono); letter-spacing: .09em; text-transform: uppercase; }
+    .game-info h3 { margin: 7px 0 6px; font: 700 25px/1.12 var(--display); letter-spacing: -.015em; }
+    .game-info p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.45; }
+    .game-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; }
+    .platforms { display: flex; flex-wrap: wrap; gap: 7px; }
+    .badge { padding: 4px 8px; border: 1px solid rgba(199, 125, 255, .34); color: #dec2f5; font: 10px var(--mono); letter-spacing: .04em; }
+    .game-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--white);
+      font: 12px var(--mono);
+      text-decoration-color: var(--purple);
+      text-underline-offset: 5px;
+      transition: color .2s ease;
+    }
+    .game-link:hover { color: var(--violet); }
+    .game-jams { border-top: 1px solid rgba(199, 125, 255, .13); background: #0c0811; }
+    .game-jams .section-heading { margin-bottom: 32px; }
+    .game-jam-grid .game-info { padding: 16px 17px 18px; }
+    .game-jam-grid .game-info h3 { font-size: 21px; }
+    .game-jam-grid .game-info p { font-size: 16px; }
+    .game-jam-grid .game-footer { justify-content: flex-start; }
+
+    .site-footer { padding: 25px 0; border-top: 1px solid rgba(199, 125, 255, .14); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .footer-inner p { margin: 0; color: #9889a1; font: 12px var(--mono); }
+    .social-links { display: flex; flex-wrap: wrap; gap: 19px; }
+    .social-links a { color: #c3b4cf; font: 12px var(--mono); text-decoration: none; transition: color .2s ease; }
+    .social-links a:hover { color: var(--violet); }
+
+    .motion-ready [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1); }
+    .motion-ready [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+    .motion-ready .game-card:nth-child(3n + 2) { transition-delay: .08s; }
+    .motion-ready .game-card:nth-child(3n) { transition-delay: .16s; }
+    @media (max-width: 900px) {
+      .hero-content { grid-template-columns: minmax(0, 1.05fr) minmax(270px, .95fr); gap: 34px; }
+      .hero h1 { font-size: clamp(48px, 7vw, 72px); }
+      .game-jam-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 36px, 560px); }
+      .nav { min-height: 68px; gap: 10px; }
+      .brand img { width: 116px; height: 42px; }
+      .nav-links { gap: 11px; }
+      .nav-links a { font-size: 10px; }
+      .language-switch { gap: 0; }
+      .language-switch button { padding: 5px 4px; font-size: 10px; }
+      .hero { min-height: unset; }
+      .hero-content { grid-template-columns: 1fr; gap: 27px; padding-block: 34px 62px; }
+      .hero-poster { order: 0; }
+      .hero-copy { order: 1; max-width: none; }
+      .hero h1 { margin-top: 11px; font-size: clamp(48px, 12vw, 68px); }
+      .hero-description { font-size: 19px; }
+      .production-badge { top: 11px; left: 11px; padding: 7px 9px; font-size: 10px; }
+      .section { padding: 68px 0; }
+      .steam-grid { grid-template-columns: 1fr; gap: 15px; }
+      .game-jam-grid { grid-template-columns: 1fr 1fr; gap: 11px; }
+      .game-jam-grid .game-info { padding: 13px; }
+      .game-jam-grid .game-info h3 { font-size: 18px; }
+      .game-jam-grid .game-info p { font-size: 15px; }
+      .game-jam-grid .game-type { font-size: 9px; }
+      .game-jam-grid .game-footer { margin-top: 13px; }
+      .game-jam-grid .game-link { font-size: 10px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 390px) {
+      .wrap { width: calc(100% - 28px); }
+      .nav { gap: 7px; }
+      .brand img { width: 84px; height: 36px; }
+      .nav-links { flex-wrap: nowrap; gap: 6px; }
+      .nav-links a { font-size: 8px; letter-spacing: 0; white-space: nowrap; }
+      .language-switch button { padding: 4px 2px; font-size: 9px; }
+      .game-jam-grid { grid-template-columns: 1fr; }
+      .game-jam-grid .game-card-art img { aspect-ratio: 16 / 8.5; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .motion-ready [data-reveal] { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Navegação dos jogos" data-i18n-aria="nav-label">
+      <a class="brand" href="#destaque" aria-label="Innominatum Digital — jogos" data-i18n-aria="brand-label">
+        <img src="assets/Title Logo (White).png" alt="Innominatum Digital" data-i18n-alt="brand-alt">
+      </a>
+      <div class="nav-links">
+        <a href="#destaque" data-i18n="nav-featured">Em produção</a>
+        <a href="#steam" data-i18n="nav-steam">Lançados</a>
+        <a href="#game-jams" data-i18n="nav-jams">Game Jams</a>
+        <div class="language-switch" role="group" aria-label="Idioma / Language">
+          <button type="button" lang="pt-BR" data-language="pt" aria-pressed="true">PT</button>
+          <button type="button" lang="en" data-language="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="destaque" aria-labelledby="hero-title">
+      <div class="hero-content wrap">
+        <div class="hero-poster" data-reveal>
+          <img src="arts-nde/1232x706.jpg" alt="Arte de capa de No Dead Ends: uma personagem e o Barman no balcão de um bar sobrenatural." data-i18n-alt="nde-cover-alt" fetchpriority="high">
+        </div>
+        <div class="hero-copy" data-reveal>
+          <span class="production-badge" data-i18n="production-badge">Novo jogo em produção</span>
+          <p class="eyebrow" data-i18n="hero-eyebrow">Próximo lançamento // Terror psicológico</p>
+          <h1 id="hero-title">No Dead Ends</h1>
+          <p class="hero-description" data-i18n="hero-description">Você morreu. Agora, sua alma pertence ao Barman. Desafie os fantasmas do Bar dos Condenados, vença seus jogos e conquiste sua liberdade.</p>
+          <p class="hero-meta" data-i18n="hero-meta">NO ALÉM // APOSTE SUA ETERNIDADE</p>
+          <div class="hero-actions">
+            <a class="button button-game" href="nodeadends/"><span data-i18n="game-details">Descubra o jogo</span><span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="https://store.steampowered.com/app/2808870/No_Dead_Ends/" target="_blank" rel="noopener noreferrer"><span data-i18n="steam-page">Página na Steam</span><span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section portfolio" id="steam" aria-labelledby="steam-title">
+      <div class="wrap">
+        <div class="section-heading" data-reveal>
+          <span class="eyebrow" data-i18n="steam-eyebrow">Disponíveis na Steam // 02 jogos</span>
+          <h2 id="steam-title" data-i18n="steam-title">Já lançados</h2>
+          <p data-i18n="steam-copy">Dois mundos já estão prontos para jogar. Escolha sua próxima aventura.</p>
+        </div>
+        <div class="steam-grid">
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://store.steampowered.com/app/2363780/Dash_Swing/" target="_blank" rel="noopener noreferrer" aria-label="Dash & Swing na Steam" data-i18n-aria="dash-link-label">
+              <img src="assets/dash-and-swing-capsule.jpg" alt="" loading="lazy">
+              <span class="card-tag" data-i18n="dash-tag">PLATAFORMER // AÇÃO</span>
+            </a>
+            <div class="game-info">
+              <span class="game-type" data-i18n="dash-type">Plataformer de ação</span>
+              <h3>Dash &amp; Swing</h3>
+              <p data-i18n="dash-description">Balance no gancho, atravesse mais de 80 fases e corra contra seu melhor tempo em desafios cheios de obstáculos.</p>
+              <div class="game-footer">
+                <div class="platforms"><span class="badge">PC</span><span class="badge">STEAM</span></div>
+                <a class="game-link" href="https://store.steampowered.com/app/2363780/Dash_Swing/" target="_blank" rel="noopener noreferrer"><span data-i18n="open-steam">Abrir na Steam</span> ↗</a>
+              </div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://store.steampowered.com/app/1452910/Soul_Shifter/" target="_blank" rel="noopener noreferrer" aria-label="Soul Shifter na Steam" data-i18n-aria="soul-link-label">
+              <img src="assets/soul-shifter-capsule.jpg" alt="" loading="lazy">
+              <span class="card-tag" data-i18n="soul-tag">FANTASIA // ROGUELIKE</span>
+            </a>
+            <div class="game-info">
+              <span class="game-type" data-i18n="soul-type">Roguelike de fantasia</span>
+              <h3>Soul Shifter</h3>
+              <p data-i18n="soul-description">Explore as ruínas de um antigo castelo, atravesse portais elementais e combine poderes para sobreviver às masmorras interdimensionais — solo ou em dupla.</p>
+              <div class="game-footer">
+                <div class="platforms"><span class="badge">PC</span><span class="badge">STEAM</span></div>
+                <a class="game-link" href="https://store.steampowered.com/app/1452910/Soul_Shifter/" target="_blank" rel="noopener noreferrer"><span data-i18n="open-steam">Abrir na Steam</span> ↗</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section game-jams" id="game-jams" aria-labelledby="jams-title">
+      <div class="wrap">
+        <div class="section-heading" data-reveal>
+          <span class="eyebrow" data-i18n="jams-eyebrow">Experimentos, protótipos e game jams // 11 projetos</span>
+          <h2 id="jams-title" data-i18n="jams-title">Feitos para experimentar.</h2>
+          <p data-i18n="jams-copy">Ideias compactas, desafios criativos e mundos construídos em game jams. Abra cada projeto para saber mais e jogar.</p>
+        </div>
+        <div class="game-jam-grid">
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://rudieri.itch.io/lostfound-co" target="_blank" rel="noopener noreferrer" aria-label="Lost&Found CO. no itch.io" data-i18n-aria="lostfound-link-label">
+              <img src="assets/screenshot-lost-and-found.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-game-jam">GAME JAM</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="lostfound-type">Aventura aconchegante</span><h3>Lost&amp;Found CO.</h3>
+              <p data-i18n="lostfound-description">Ajude Boowie, um fantasma entregador, a encontrar os objetos perdidos pelos moradores depois das festas de Halloween.</p>
+              <div class="game-footer"><a class="game-link" href="https://rudieri.itch.io/lostfound-co" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://rudieri.itch.io/rubbys-journey-a-day-in-a-life-in-the-cargoship" target="_blank" rel="noopener noreferrer" aria-label="Rubby's Journey no itch.io" data-i18n-aria="rubby-link-label">
+              <img src="assets/rubby-journey.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-game-jam">GAME JAM</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="rubby-type">Aventura de navegação</span><h3>Rubby’s Journey</h3>
+              <p data-i18n="rubby-description">Assuma o leme com Rubby, capitão de cargueiro, e entregue mercadorias a comunidades em ilhas remotas.</p>
+              <div class="game-footer"><a class="game-link" href="https://rudieri.itch.io/rubbys-journey-a-day-in-a-life-in-the-cargoship" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://rudieri.itch.io/santa-swing" target="_blank" rel="noopener noreferrer" aria-label="Santa Swing no itch.io" data-i18n-aria="santa-link-label">
+              <img src="assets/santa-swing-cover.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-game-jam">GAME JAM</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="santa-type">Plataformer de ação</span><h3>Santa Swing</h3>
+              <p data-i18n="santa-description">Ajude o Papai Noel a entregar presentes nas grandes cidades, usando saltos, dash e um gancho.</p>
+              <div class="game-footer"><a class="game-link" href="https://rudieri.itch.io/santa-swing" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <div class="game-card-art">
+              <img src="assets/noel-slide.png" alt="Tela de título de Noel Slide com Papai Noel em uma pista elevada." loading="lazy">
+              <span class="card-tag" data-i18n="tag-project">PROJETO</span>
+            </div>
+            <div class="game-info"><span class="game-type" data-i18n="noel-type">Plataformer natalino</span><h3>Noel Slide</h3>
+              <p data-i18n="noel-description">Um jogo diferente de Santa Swing: guie Noel pela pista e encontre o caminho até o final.</p>
+              <div class="game-footer"><span class="game-link" data-i18n="noel-link">Mais informações em breve</span></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://rudieri.itch.io/a-godly-hand" target="_blank" rel="noopener noreferrer" aria-label="A Godly Hand no itch.io" data-i18n-aria="godly-link-label">
+              <img src="assets/godly-hand.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-game-jam">GAME JAM</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="godly-type">Cartas e estratégia</span><h3>A Godly Hand</h3>
+              <p data-i18n="godly-description">Como uma divindade, organize as cartas — as decisões de seus campeões — para ajudá-los a vencer três desafios.</p>
+              <div class="game-footer"><a class="game-link" href="https://rudieri.itch.io/a-godly-hand" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://rudieri.itch.io/coming-home" target="_blank" rel="noopener noreferrer" aria-label="Coming Home no itch.io" data-i18n-aria="coming-link-label">
+              <img src="assets/coming-home.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-prototype">PROTÓTIPO</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="coming-type">Terror em primeira pessoa</span><h3>Coming Home</h3>
+              <p data-i18n="coming-description">Ao voltar à casa de infância após a morte dos pais, Peter encontra uma presença que guarda segredos do passado.</p>
+              <div class="game-footer"><a class="game-link" href="https://rudieri.itch.io/coming-home" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://innominatumdigital.itch.io/mano-ce-matou-o-meu-trampo" target="_blank" rel="noopener noreferrer" aria-label="Mano, Cê Matou o Meu Trampo no itch.io" data-i18n-aria="mano-link-label">
+              <img src="assets/mano-cematoumeutrampo.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-game-jam">GAME JAM</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="mano-type">Plataformer de super-heróis</span><h3>Mano, Cê Matou o Meu Trampo</h3>
+              <p data-i18n="mano-description">Um jogo de plataforma com tema de super-heróis, criado para a Game Jaaj 7: enfrente seu arqui-inimigo.</p>
+              <div class="game-footer"><a class="game-link" href="https://innominatumdigital.itch.io/mano-ce-matou-o-meu-trampo" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://t-ago.itch.io/abnormal-sea" target="_blank" rel="noopener noreferrer" aria-label="Abnormal Sea no itch.io" data-i18n-aria="abnormal-link-label">
+              <img src="assets/abnormal-sea.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-game-jam">GAME JAM</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="abnormal-type">Ação e sobrevivência</span><h3>Abnormal Sea</h3>
+              <p data-i18n="abnormal-description">Enfrente ondas de peixes e sobreviva o máximo possível neste desafio de ação.</p>
+              <div class="game-footer"><a class="game-link" href="https://t-ago.itch.io/abnormal-sea" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://rudieri.itch.io/a-real-lovecraftian-horror" target="_blank" rel="noopener noreferrer" aria-label="A Real Lovecraftian Horror no itch.io" data-i18n-aria="lovecraft-link-label">
+              <img src="assets/areallovecraftianhorrror.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-game-jam">GAME JAM</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="lovecraft-type">Terror cósmico</span><h3>A Real Lovecraftian Horror</h3>
+              <p data-i18n="lovecraft-description">Investigue o desaparecimento de moradores em uma pequena vila e encare horrores que desafiam a razão.</p>
+              <div class="game-footer"><a class="game-link" href="https://rudieri.itch.io/a-real-lovecraftian-horror" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://t-ago.itch.io/slime-juice" target="_blank" rel="noopener noreferrer" aria-label="Slime Juice no itch.io" data-i18n-aria="slime-link-label">
+              <img src="assets/slimejuice.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-game-jam">GAME JAM</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="slime-type">Ação e aventura</span><h3>Slime Juice</h3>
+              <p data-i18n="slime-description">Controle um slime, liberte seus amigos e enfrente a empresa que explora a essência vital do planeta.</p>
+              <div class="game-footer"><a class="game-link" href="https://t-ago.itch.io/slime-juice" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://t-ago.itch.io/the-warrior-of-light-and-shadow" target="_blank" rel="noopener noreferrer" aria-label="The Warrior of Light and Shadow no itch.io" data-i18n-aria="warrior-link-label">
+              <img src="assets/thewarrrioroflightandshadow.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-game-jam">GAME JAM</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="warrior-type">Dungeon crawler</span><h3>The Warrior of Light and Shadow</h3>
+              <p data-i18n="warrior-description">Alterne entre as almas da Luz e da Sombra para derrotar os inimigos de uma masmorra.</p>
+              <div class="game-footer"><a class="game-link" href="https://t-ago.itch.io/the-warrior-of-light-and-shadow" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+          <article class="game-card" data-reveal>
+            <a class="game-card-art" href="https://rudieri.itch.io/a-bad-and-hard-ball-plataformer" target="_blank" rel="noopener noreferrer" aria-label="A Bad and Hard Ball Plataformer no itch.io" data-i18n-aria="ball-link-label">
+              <img src="assets/a-bad-and-hard-ball.png" alt="" loading="lazy"><span class="card-tag" data-i18n="tag-prototype">PROTÓTIPO</span>
+            </a>
+            <div class="game-info"><span class="game-type" data-i18n="ball-type">Plataformer de precisão</span><h3>A Bad and Hard Ball Plataformer</h3>
+              <p data-i18n="ball-description">Um antigo e desafiador projeto de plataforma: domine o impulso da bola e tente chegar ao fim.</p>
+              <div class="game-footer"><a class="game-link" href="https://rudieri.itch.io/a-bad-and-hard-ball-plataformer" target="_blank" rel="noopener noreferrer"><span data-i18n="play-itch">Ver no itch.io</span> ↗</a></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>© 2026 INNOMINATUM DIGITAL <span data-i18n="footer-note">// JOGOS PRÓPRIOS</span></p>
+      <nav class="social-links" aria-label="Redes sociais" data-i18n-aria="social-label">
+        <a href="https://innominatumdigital.itch.io/" target="_blank" rel="noopener noreferrer">ITCH.IO ↗</a>
+        <a href="https://www.instagram.com/innominatum.digital/" target="_blank" rel="noopener noreferrer">INSTAGRAM ↗</a>
+        <a href="https://www.youtube.com/channel/UCv0PYpOaHvRy5aVHm0AYsAA" target="_blank" rel="noopener noreferrer">YOUTUBE ↗</a>
+      </nav>
+    </div>
+  </footer>
+  <script>
+    const translations = {
+      pt: {
+        title: "Innominatum Digital — Jogos",
+        description: "Conheça os jogos da Innominatum Digital: No Dead Ends, em produção; lançamentos na Steam e projetos independentes de Game Jam.",
+        "nav-label": "Navegação dos jogos", "brand-label": "Innominatum Digital — jogos", "brand-alt": "Innominatum Digital",
+        "nde-cover-alt": "Arte de capa de No Dead Ends: uma personagem e o Barman no balcão de um bar sobrenatural.",
+        "dash-link-label": "Dash & Swing na Steam", "soul-link-label": "Soul Shifter na Steam",
+        "lostfound-link-label": "Lost&Found CO. no itch.io", "rubby-link-label": "Rubby's Journey no itch.io",
+        "santa-link-label": "Santa Swing no itch.io", "godly-link-label": "A Godly Hand no itch.io",
+        "coming-link-label": "Coming Home no itch.io", "mano-link-label": "Mano, Cê Matou o Meu Trampo no itch.io",
+        "abnormal-link-label": "Abnormal Sea no itch.io", "lovecraft-link-label": "A Real Lovecraftian Horror no itch.io",
+        "slime-link-label": "Slime Juice no itch.io", "warrior-link-label": "The Warrior of Light and Shadow no itch.io",
+        "ball-link-label": "A Bad and Hard Ball Plataformer no itch.io",
+        "nav-featured": "Em produção", "nav-steam": "Lançados", "nav-jams": "Game Jams",
+        "production-badge": "Novo jogo em produção", "hero-eyebrow": "Próximo lançamento // Terror psicológico",
+        "hero-description": "Você morreu. Agora, sua alma pertence ao Barman. Desafie os fantasmas do Bar dos Condenados, vença seus jogos e conquiste sua liberdade.",
+        "hero-meta": "NO ALÉM // APOSTE SUA ETERNIDADE", "game-details": "Descubra o jogo", "steam-page": "Página na Steam",
+        "steam-eyebrow": "Disponíveis na Steam // 02 jogos", "steam-title": "Já lançados",
+        "steam-copy": "Dois mundos já estão prontos para jogar. Escolha sua próxima aventura.",
+        "dash-tag": "PLATAFORMER // AÇÃO", "dash-type": "Plataformer de ação",
+        "dash-description": "Balance no gancho, atravesse mais de 80 fases e corra contra seu melhor tempo em desafios cheios de obstáculos.",
+        "open-steam": "Abrir na Steam", "soul-tag": "FANTASIA // ROGUELIKE", "soul-type": "Roguelike de fantasia",
+        "soul-description": "Explore as ruínas de um antigo castelo, atravesse portais elementais e combine poderes para sobreviver às masmorras interdimensionais — solo ou em dupla.",
+        "jams-eyebrow": "Experimentos, protótipos e game jams // 12 projetos",
+        "jams-title": "Feitos para experimentar.",
+        "jams-copy": "Ideias compactas, desafios criativos e mundos construídos em game jams. Abra cada projeto para saber mais e jogar.",
+        "tag-game-jam": "GAME JAM", "tag-prototype": "PROTÓTIPO",
+        "lostfound-type": "Aventura aconchegante",
+        "lostfound-description": "Ajude Boowie, um fantasma entregador, a encontrar os objetos perdidos pelos moradores depois das festas de Halloween.",
+        "rubby-type": "Aventura de navegação",
+        "rubby-description": "Assuma o leme com Rubby, capitão de cargueiro, e entregue mercadorias a comunidades em ilhas remotas.",
+        "santa-type": "Plataformer de ação",
+        "santa-description": "Ajude o Papai Noel a entregar presentes nas grandes cidades, usando saltos, dash e um gancho.",
+        "tag-project": "PROJETO", "noel-type": "Plataformer natalino",
+        "noel-description": "Um jogo diferente de Santa Swing: guie Noel pela pista e encontre o caminho até o final.",
+        "noel-link": "Mais informações em breve",
+        "godly-type": "Cartas e estratégia",
+        "godly-description": "Como uma divindade, organize as cartas — as decisões de seus campeões — para ajudá-los a vencer três desafios.",
+        "coming-type": "Terror em primeira pessoa",
+        "coming-description": "Ao voltar à casa de infância após a morte dos pais, Peter encontra uma presença que guarda segredos do passado.",
+        "mano-type": "Plataformer de super-heróis",
+        "mano-description": "Um jogo de plataforma com tema de super-heróis, criado para a Game Jaaj 7: enfrente seu arqui-inimigo.",
+        "abnormal-type": "Ação e sobrevivência",
+        "abnormal-description": "Enfrente ondas de peixes e sobreviva o máximo possível neste desafio de ação.",
+        "lovecraft-type": "Terror cósmico",
+        "lovecraft-description": "Investigue o desaparecimento de moradores em uma pequena vila e encare horrores que desafiam a razão.",
+        "slime-type": "Ação e aventura",
+        "slime-description": "Controle um slime, liberte seus amigos e enfrente a empresa que explora a essência vital do planeta.",
+        "warrior-type": "Dungeon crawler",
+        "warrior-description": "Alterne entre as almas da Luz e da Sombra para derrotar os inimigos de uma masmorra.",
+        "ball-type": "Plataformer de precisão",
+        "ball-description": "Um antigo e desafiador projeto de plataforma: domine o impulso da bola e tente chegar ao fim.",
+        "play-itch": "Ver no itch.io", "footer-note": "// JOGOS PRÓPRIOS", "social-label": "Redes sociais"
+      },
+      en: {
+        title: "Innominatum Digital — Games",
+        description: "Explore Innominatum Digital games: No Dead Ends in development, Steam releases, and independent game jam projects.",
+        "nav-label": "Game navigation", "brand-label": "Innominatum Digital — games", "brand-alt": "Innominatum Digital",
+        "nde-cover-alt": "No Dead Ends cover art: a character and the Barman at the counter of a supernatural bar.",
+        "dash-link-label": "Dash & Swing on Steam", "soul-link-label": "Soul Shifter on Steam",
+        "lostfound-link-label": "Lost&Found CO. on itch.io", "rubby-link-label": "Rubby's Journey on itch.io",
+        "santa-link-label": "Santa Swing on itch.io", "godly-link-label": "A Godly Hand on itch.io",
+        "coming-link-label": "Coming Home on itch.io", "mano-link-label": "Mano, Cê Matou o Meu Trampo on itch.io",
+        "abnormal-link-label": "Abnormal Sea on itch.io", "lovecraft-link-label": "A Real Lovecraftian Horror on itch.io",
+        "slime-link-label": "Slime Juice on itch.io", "warrior-link-label": "The Warrior of Light and Shadow on itch.io",
+        "ball-link-label": "A Bad and Hard Ball Plataformer on itch.io",
+        "nav-featured": "In development", "nav-steam": "Released", "nav-jams": "Game Jams",
+        "production-badge": "New game in development", "hero-eyebrow": "Upcoming game // Psychological horror",
+        "hero-description": "You died. Now your soul belongs to the Barman. Challenge the ghosts at the Bar of the Damned, win their games, and earn your freedom.",
+        "hero-meta": "THE AFTERLIFE // GAMBLE YOUR ETERNITY", "game-details": "Discover the game", "steam-page": "Steam page",
+        "steam-eyebrow": "Available on Steam // 02 games", "steam-title": "Released games",
+        "steam-copy": "Two worlds are ready to play. Choose your next adventure.",
+        "dash-tag": "PLATFORMER // ACTION", "dash-type": "Action platformer",
+        "dash-description": "Swing from your grappling hook, race through more than 80 levels, and beat your best times across challenging stages.",
+        "open-steam": "Open on Steam", "soul-tag": "FANTASY // ROGUELIKE", "soul-type": "Fantasy roguelike",
+        "soul-description": "Explore the ruins of an ancient castle, enter elemental portals, and combine powers to survive interdimensional dungeons — alone or in co-op.",
+        "jams-eyebrow": "Experiments, prototypes & game jams // 12 projects",
+        "jams-title": "Made to experiment.",
+        "jams-copy": "Compact ideas, creative challenges, and worlds built for game jams. Open a project to learn more and play.",
+        "tag-game-jam": "GAME JAM", "tag-prototype": "PROTOTYPE",
+        "lostfound-type": "Cozy adventure",
+        "lostfound-description": "Help Boowie, a ghostly delivery driver, find the items villagers lost after their Halloween parties.",
+        "rubby-type": "Sailing adventure",
+        "rubby-description": "Take the helm with Rubby, a cargo ship captain delivering goods to remote island communities.",
+        "santa-type": "Action platformer",
+        "santa-description": "Help Santa deliver gifts across modern cities with jumps, dashes, and a grappling hook.",
+        "tag-project": "PROJECT", "noel-type": "Holiday platformer",
+        "noel-description": "A different game from Santa Swing: guide Noel along the course and find your way to the end.",
+        "noel-link": "More information coming soon",
+        "godly-type": "Card strategy",
+        "godly-description": "Play as a god and arrange cards — your champions' choices — to help them overcome three challenges.",
+        "coming-type": "First-person horror",
+        "coming-description": "Returning to his childhood home after his parents' deaths, Peter finds a presence hiding secrets from the past.",
+        "mano-type": "Superhero platformer",
+        "mano-description": "A superhero-themed platformer made for Game Jaaj 7: face your archenemy.",
+        "abnormal-type": "Action survival",
+        "abnormal-description": "Fight through waves of fish and survive as long as you can in this action challenge.",
+        "lovecraft-type": "Cosmic horror",
+        "lovecraft-description": "Investigate the disappearances in a small village and face horrors beyond reason.",
+        "slime-type": "Action adventure",
+        "slime-description": "Control a slime, free your friends, and take on the company draining the planet's life-giving essence.",
+        "warrior-type": "Dungeon crawler",
+        "warrior-description": "Switch between the souls of Light and Shadow to defeat the enemies in a dungeon.",
+        "ball-type": "Precision platformer",
+        "ball-description": "An old and challenging platformer project: master the ball's momentum and try to reach the end.",
+        "play-itch": "View on itch.io", "footer-note": "// ORIGINAL GAMES", "social-label": "Social media"
+      }
+    };
+
+    function setLanguage(language) {
+      const selected = translations[language];
+      document.documentElement.lang = language === "pt" ? "pt-BR" : "en";
+      document.title = selected.title;
+      document.querySelector('meta[name="description"]').content = selected.description;
+      document.querySelectorAll("[data-i18n]").forEach((element) => {
+        const translation = selected[element.dataset.i18n];
+        if (translation !== undefined) element.textContent = translation;
+      });
+      document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
+        element.setAttribute("aria-label", selected[element.dataset.i18nAria]);
+      });
+      document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+        element.alt = selected[element.dataset.i18nAlt];
+      });
+      document.querySelectorAll("[data-language]").forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.language === language));
+      });
+      try {
+        localStorage.setItem("innominatum-language", language);
+      } catch (error) {
+        console.warn("Could not save language preference.", error);
+      }
+    }
+
+    document.querySelectorAll("[data-language]").forEach((button) => {
+      button.addEventListener("click", () => setLanguage(button.dataset.language));
+    });
+
+    let savedLanguage = "pt";
+    try {
+      savedLanguage = localStorage.getItem("innominatum-language") || "pt";
+    } catch (error) {
+      console.warn("Could not read language preference.", error);
+    }
+    setLanguage(savedLanguage === "en" ? "en" : "pt");
+
+    if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("motion-ready");
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .12 });
+      document.querySelectorAll("[data-reveal]").forEach((element) => revealObserver.observe(element));
+    }
+  </script>
+</body>
+</html>
